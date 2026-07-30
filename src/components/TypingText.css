@@ -1,0 +1,18 @@
+.typing-wrap {
+  display: inline-flex;
+  align-items: center;
+}
+
+.typing-text {
+  color: var(--accent-primary);
+  transition: color 0.3s ease;
+}
+
+.typing-caret {
+  width: 2px;
+  height: 1.6rem;
+  margin-left: 3px;
+  background: var(--accent-primary);
+  animation: blink 1s step-end infinite;
+  transition: background-color 0.3s ease;
+}

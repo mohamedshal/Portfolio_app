@@ -1,0 +1,57 @@
+.contact-section {
+  background: var(--bg-primary);
+  transition: background-color 0.3s ease;
+}
+
+.contact-card {
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  background: var(--bg-secondary);
+  padding: 1.4rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  background: var(--bg-primary);
+  padding: 0.85rem 1rem;
+  color: var(--text-primary);
+  font-family: "Outfit", sans-serif;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.input::placeholder {
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+.send-btn {
+  width: 100%;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+  padding: 0.85rem 1rem;
+  color: #ffffff;
+  font-family: "Space Mono", monospace;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.light .send-btn {
+  color: #000000;
+}
+
+.send-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px var(--accent-primary);
+}

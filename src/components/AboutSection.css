@@ -1,0 +1,67 @@
+.about-section {
+  background: var(--bg-primary);
+  transition: background-color 0.3s ease;
+}
+
+.section-title {
+  color: var(--text-primary);
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 900;
+  transition: color 0.3s ease;
+}
+
+.timeline-year {
+  color: var(--accent-primary);
+  font-family: "Space Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  transition: color 0.3s ease;
+}
+
+.timeline-title {
+  margin-top: 0.2rem;
+  color: var(--text-primary);
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+.timeline-desc {
+  margin-top: 0.2rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.about-copy {
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+}
+
+.stat-card {
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  background: var(--bg-secondary);
+  padding: 1rem;
+  text-align: center;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.stat-number {
+  margin-top: 0.5rem;
+  color: var(--accent-primary);
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  font-weight: 900;
+  transition: color 0.3s ease;
+}
+
+.stat-label {
+  margin-top: 0.4rem;
+  color: var(--text-secondary);
+  font-family: "Space Mono", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
