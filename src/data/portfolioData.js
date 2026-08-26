@@ -3,6 +3,7 @@ import cryptoImage from "../images/crypto.png";
 import weatherImage from "../images/weather.png";
 import prayerImage from "../images/prayertimings.png";
 import crudsImage from "../images/crudsPhoto.png";
+import FormBuilderImage from "../images/form-builder.png";
 
 export const NAV_LINKS = ["Home", "About", "Skills", "Projects", "Contact"];
 
@@ -44,16 +45,16 @@ export const PROJECTS = [
 		kind: "frontend",
 	},
 	{
-		title: "Crypto Place",
-		subtitle: "Crypto Dashboard",
-		desc: "Cryptocurrency tracking app with clean UI and dynamic data display for major coins.",
-		tags: ["React", "API", "JavaScript"],
+		title: "Advanced Form Builder",
+		subtitle: "Form Builder",
+		desc: "Advanced React form builder with drag-and-drop, validation, conditional logic, and customization",
+		tags: ["React", "API", "TypeScript"],
 		accent: "#eab308",
 		icon: "🪙",
 		num: "02",
-		image: cryptoImage,
-		projectUrl: "https://crypto-currencies321.netlify.app/",
-		detailsUrl: "https://crypto-currencies321.netlify.app/",
+		image: FormBuilderImage,
+		projectUrl: "https://advanced-form-builder-nf0sfvthr.vercel.app/",
+		detailsUrl: "https://advanced-form-builder-nf0sfvthr.vercel.app/",
 		kind: "frontend",
 	},
 	{
