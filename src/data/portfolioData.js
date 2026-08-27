@@ -4,6 +4,7 @@ import weatherImage from "../images/weather.png";
 import prayerImage from "../images/prayertimings.png";
 import crudsImage from "../images/crudsPhoto.png";
 import FormBuilderImage from "../images/form-builder.png";
+import AI_ShoppingImage from "../images/AI_Shopping.png";
 
 export const NAV_LINKS = ["Home", "About", "Skills", "Projects", "Contact"];
 
@@ -32,16 +33,16 @@ export const SKILLS = [
 
 export const PROJECTS = [
 	{
-		title: "E-Commerce Store",
+		title: "AI_E-commerce",
 		subtitle: "Frontend Web App",
-		desc: "Responsive e-commerce interface with product listing, filtering, and smooth UI interactions.",
+		desc: "Responsive AI e-commerce interface with Agent assistant, and smooth UI interactions.",
 		tags: ["React", "CSS", "JavaScript"],
 		accent: "#22c55e",
 		icon: "🛒",
 		num: "01",
-		image: ecommerceImage,
-		projectUrl: "https://e-commerce3x1.netlify.app/",
-		detailsUrl: "https://e-commerce3x1.netlify.app/",
+		image: AI_ShoppingImage,
+		projectUrl: "https://ai-e-commerce-app.vercel.app/",
+		detailsUrl: "https://ai-e-commerce-app.vercel.app/",
 		kind: "frontend",
 	},
 	{
