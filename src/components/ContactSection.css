@@ -1,25 +1,49 @@
-.contact-section {
-  background: var(--bg-primary);
-  transition: background-color 0.3s ease;
+.contact-inner {
+  max-width: 640px;
 }
 
 .contact-card {
-  border: 1px solid var(--border-color);
-  border-radius: 1rem;
-  background: var(--bg-secondary);
-  padding: 1.4rem;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  border: var(--hairline);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  padding: clamp(1.5rem, 4vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: var(--shadow-card);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.4s ease;
+}
+
+.field {
+  position: relative;
+}
+
+/* Labels stay in the accessibility tree only; visible text remains the
+   existing placeholder strings. */
+.field-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .input {
   width: 100%;
   border: 1px solid var(--border-color);
-  border-radius: 0.75rem;
+  border-radius: var(--radius-sm);
   background: var(--bg-primary);
-  padding: 0.85rem 1rem;
+  padding: 0.9rem 1.05rem;
   color: var(--text-primary);
   font-family: "Outfit", sans-serif;
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .input::placeholder {
@@ -27,31 +51,134 @@
   transition: color 0.3s ease;
 }
 
+.input:hover {
+  border-color: color-mix(in srgb, var(--accent-primary) 30%, transparent);
+}
+
 .input:focus {
   outline: none;
-  border-color: var(--accent-primary);
+  border-color: var(--accent-text);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-primary) 15%, transparent);
+}
+
+.input--area {
+  resize: vertical;
+  min-height: 130px;
+  line-height: 1.75;
 }
 
 .send-btn {
   width: 100%;
-  border-radius: 0.75rem;
-  background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
-  padding: 0.85rem 1rem;
-  color: #ffffff;
-  font-family: "Space Mono", monospace;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
+  border-radius: var(--radius-pill);
+  padding: 0.95rem 1.25rem;
+  background: var(--grad-accent);
+  color: var(--on-accent);
+  font-family: "Outfit", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
   border: none;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 18px var(--accent-glow);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s ease, filter 0.3s ease;
 }
 
-.light .send-btn {
-  color: #000000;
+.send-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 26px var(--accent-ring);
+  filter: brightness(1.05);
 }
 
-.send-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 16px var(--accent-primary);
+.send-btn.is-loading {
+  background: var(--text-secondary);
+}
+
+.send-btn.is-sent {
+  background: var(--accent-hover);
+}
+
+.send-btn__sent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.send-btn__sent svg {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+}
+
+.send-btn:disabled {
+  cursor: default;
+  box-shadow: none;
+}
+
+/* ---------- Social links ---------- */
+
+.social-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+@media (min-width: 640px) {
+  .social-row {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.social-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.1rem 0.6rem;
+  border: var(--hairline);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text-secondary);
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.35s var(--ease), border-color 0.3s ease,
+    background-color 0.3s ease, box-shadow 0.35s ease, color 0.3s ease;
+}
+
+.social-tile:hover {
+  transform: translateY(-6px);
+  border-color: color-mix(in srgb, var(--accent-primary) 45%, transparent);
+  box-shadow: var(--shadow-card);
+}
+
+.social-icon {
+  display: grid;
+  width: 1.3rem;
+  height: 1.3rem;
+  place-items: center;
+  color: var(--accent-text);
+  font-size: 1.3rem;
+  line-height: 1;
+  transition: color 0.3s ease, transform 0.35s var(--ease);
+}
+
+.social-icon svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.social-tile:hover .social-icon {
+  color: var(--accent-hover);
+  transform: scale(1.08);
+}
+
+.social-label {
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+.social-btn:hover .social-label {
+  color: inherit;
 }

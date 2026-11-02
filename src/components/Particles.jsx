@@ -23,7 +23,7 @@ export default function Particles() {
             top: `${p.y}%`,
             width: p.size,
             height: p.size,
-            background: "#eab308",
+            background: "var(--accent-primary)",
             opacity: 0.13,
             animation: `particleFloat ${p.duration}s ease-in-out ${p.delay}s infinite alternate`,
           }}

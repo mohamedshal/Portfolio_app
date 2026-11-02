@@ -1,52 +1,57 @@
 import Counter from "./Counter";
-import { TIMELINE } from "../data/portfolioData";
+import profileImage from "../images/WhatsApp Image 2023-07-06 at 11.14.46 AM.jpeg";
 import "./AboutSection.css";
 
 const STATS = [
-  { n: 15, s: "+", l: "Projects", icon: "🚀" },
-  { n: 1, s: "+", l: "Years Exp.", icon: "📅" },
-  { n: 1, s: "+", l: "Training Track", icon: "🎯" },
-  { n: 100, s: "%", l: "Commitment", icon: "🔥" },
+  { n: 15, s: "+", l: "Projects" },
+  { n: 1, s: "+", l: "Years learning" },
+  { n: 1, s: "+", l: "Training track" },
+  { n: 100, s: "%", l: "Commitment" },
 ];
 
 export default function AboutSection() {
   return (
-    <section id="about" className="about-section">
-      <div className="mx-auto grid max-w-6xl gap-14 px-6 py-24 lg:grid-cols-2">
-        <div>
-          <h2 className="section-title">About Me</h2>
-          <div className="mt-8 space-y-6 border-l border-yellow-500/30 pl-6">
-            {TIMELINE.map((item) => (
-              <div key={item.year} className="tl-item">
-                <p className="timeline-year">{item.year}</p>
-                <h3 className="timeline-title">{item.title}</h3>
-                <p className="timeline-desc">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div>
-          <p className="about-copy">
-            Front-End Developer with over 1 year of hands-on training experience and 15+ completed projects.
-            I specialize in building responsive, high-performance web applications using HTML, CSS, Bootstrap,
-            Tailwind CSS, Sass, JavaScript, React.js, Redux Toolkit, and TypeScript.
-            <br />
-            <br />
-            I also have a solid foundation in backend development with Node.js and Express.js to build and
-            integrate full-stack solutions and APIs. I focus on delivering real functional projects and continuously
-            improving my skills through practical work.
+    <section id="about" className="section section--band about-section">
+      <div className="container about-layout">
+        <div className="about-story reveal">
+          <p className="eyebrow">A little about me</p>
+          <h2 className="section-title about-title">About Me</h2>
+          <p className="about-intro">
+            I&apos;m Mohamed, a front-end developer who enjoys turning ideas into
+            thoughtful, responsive web experiences.
           </p>
-          <div className="mt-8 grid grid-cols-2 gap-4">
-            {STATS.map((item) => (
-              <div key={item.l} className="stat-card">
-                <div className="text-2xl">{item.icon}</div>
-                <div className="stat-number">
-                  <Counter target={item.n} suffix={item.s} />
-                </div>
-                <p className="stat-label">{item.l}</p>
+          <p className="about-copy">
+            I have over a year of hands-on training experience and have built
+            more than 15 projects. I work mainly with JavaScript and React,
+            alongside TypeScript, Redux Toolkit, Zustand, and modern CSS tools.
+            <br />
+            <br />
+            I also have a foundation in Node.js and Express.js, which helps me
+            connect polished interfaces to APIs and build full-stack projects.
+            I learn by making practical things and improving them with each
+            iteration.
+          </p>
+        </div>
+        <figure className="about-portrait reveal reveal-d2">
+          <img
+            src={profileImage}
+            alt="Mohamed Shalaby, front-end developer"
+            className="about-portrait-image"
+          />
+          <figcaption className="about-portrait-caption">
+            <span className="about-caption-name">Mohamed Shalaby</span>
+            <span className="about-caption-role">Front-End Developer</span>
+          </figcaption>
+        </figure>
+        <div className="about-stats reveal reveal-d3" aria-label="Career highlights">
+          {STATS.map((item) => (
+            <div key={item.l} className="stat-card">
+              <div className="stat-number">
+                <Counter target={item.n} suffix={item.s} />
               </div>
-            ))}
-          </div>
+              <p className="stat-label">{item.l}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

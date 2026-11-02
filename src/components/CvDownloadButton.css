@@ -1,0 +1,422 @@
+/* Animated CV download control — recreation of the reference capture,
+   mapped onto the Forest Green + Emerald tokens.
+   Reference phases: ring unwinds into a line (~260ms), package is thrown up
+   and drifts down to the line while the bar fills (2.7s), then a check draws. */
+
+.cv-dl {
+  position: relative;
+  display: inline-flex;
+  font-family: "Outfit", sans-serif;
+}
+
+.cv-dl__ctl {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-pill);
+  padding: 0.85rem 1.75rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--text-primary);
+  background: transparent;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 0.35s var(--ease), border-color 0.3s ease,
+    background-color 0.3s ease, color 0.3s ease;
+}
+
+.cv-dl[data-phase="idle"] .cv-dl__ctl:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-primary);
+  background: color-mix(in srgb, var(--accent-primary) 10%, transparent);
+  color: var(--accent-text);
+}
+
+/* The pill outline collapses away as the control becomes the progress widget. */
+.cv-dl:not([data-phase="idle"]) .cv-dl__ctl {
+  border-color: transparent;
+  background: transparent;
+}
+
+/* ---------- idle label + glyph ---------- */
+
+.cv-dl__idle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: opacity 0.18s ease, transform 0.24s var(--ease);
+}
+
+.cv-dl__glyph svg {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  fill: currentColor;
+}
+
+.cv-dl:not([data-phase="idle"]) .cv-dl__idle {
+  opacity: 0;
+  transform: translateY(-4px) scale(0.82);
+}
+
+/* ---------- the ring that unwinds into the line ---------- */
+
+.cv-dl__ring {
+  position: absolute;
+  left: 50%;
+  bottom: 1px;
+  width: 42px;
+  height: 42px;
+  margin-left: -21px;
+  border: 2px solid var(--accent-primary);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.4) rotate(-90deg);
+  filter: drop-shadow(0 0 6px var(--accent-glow));
+  pointer-events: none;
+}
+
+.cv-dl__ring svg {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 20px;
+  height: 20px;
+  fill: var(--accent-primary);
+}
+
+.cv-dl[data-phase="morph"] .cv-dl__ring {
+  animation: cvUnwind 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.cv-dl[data-phase="run"] .cv-dl__ring,
+.cv-dl[data-phase="done"] .cv-dl__ring {
+  opacity: 0;
+}
+
+@keyframes cvUnwind {
+  0% {
+    opacity: 0;
+    transform: scale(0.42) rotate(-90deg);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1) rotate(-150deg);
+  }
+  64% {
+    opacity: 1;
+    transform: scale(1.04, 0.5) rotate(20deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.04, 0.05) rotate(90deg);
+  }
+}
+
+/* ---------- package under a parachute: thrown up, drifts to the line ---------- */
+
+/* The box is deliberately larger than the artwork: the extra padding keeps the
+   stroke caps and the glow inside the SVG viewport and the filter region. */
+.cv-dl__chute {
+  position: absolute;
+  left: 50%;
+  bottom: -2px;
+  width: 40px;
+  height: 62px;
+  margin-left: -20px;
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 0 7px var(--accent-glow));
+}
+
+.cv-dl__chute svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: var(--accent-primary);
+}
+
+.cv-dl__chute .cv-dl__lines {
+  fill: none;
+  stroke: var(--accent-primary);
+  stroke-width: 0.9;
+  stroke-linecap: round;
+}
+
+.cv-dl[data-phase="run"] .cv-dl__chute {
+  animation: cvFall 2.44s linear forwards;
+}
+
+.cv-dl[data-phase="done"] .cv-dl__chute {
+  opacity: 0;
+  transition: opacity 0.06s linear;
+}
+
+@keyframes cvFall {
+  0% {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.45);
+    animation-timing-function: ease-out;
+  }
+  9% {
+    opacity: 1;
+    transform: translateY(-22px) scale(1);
+    animation-timing-function: linear;
+  }
+  94% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(3px) scale(0.9);
+  }
+}
+
+/* ---------- progress line ---------- */
+
+.cv-dl__track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--border-color);
+  opacity: 0;
+  transform: scaleX(0.3);
+  transform-origin: center bottom;
+  pointer-events: none;
+  transition: opacity 0.18s ease 0.08s, transform 0.26s var(--ease);
+}
+
+.cv-dl:not([data-phase="idle"]) .cv-dl__track {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.cv-dl__fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--accent-primary);
+  box-shadow: 0 0 10px var(--accent-glow);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.cv-dl[data-phase="done"] .cv-dl__track {
+  animation: cvSettle 0.24s var(--ease);
+}
+
+@keyframes cvSettle {
+  0% {
+    transform: scaleY(1);
+  }
+  42% {
+    transform: scaleY(2.6);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+/* ---------- percentage ---------- */
+
+.cv-dl__pct {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 3px);
+  font-family: "Space Mono", monospace;
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  text-align: center;
+  color: var(--text-secondary);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease 0.1s;
+}
+
+.cv-dl:not([data-phase="idle"]) .cv-dl__pct {
+  opacity: 1;
+}
+
+/* ---------- completion mark + word ---------- */
+
+.cv-dl__check {
+  position: absolute;
+  left: 50%;
+  bottom: 7px;
+  width: 24px;
+  height: 24px;
+  margin-left: -12px;
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 0 6px var(--accent-glow));
+}
+
+.cv-dl__check svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: var(--accent-primary);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+}
+
+.cv-dl[data-phase="done"] .cv-dl__check {
+  opacity: 1;
+  animation: cvPop 0.36s var(--ease) forwards;
+}
+
+.cv-dl[data-phase="done"] .cv-dl__check svg {
+  animation: cvDraw 0.2s cubic-bezier(0.22, 1, 0.36, 1) 0.06s forwards;
+}
+
+@keyframes cvDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes cvPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.cv-dl__word {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 33px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--text-secondary);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.24s ease;
+}
+
+.cv-dl[data-phase="done"] .cv-dl__word {
+  opacity: 1;
+}
+
+/* ---------- cancel ---------- */
+
+.cv-dl__cancel {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 17px);
+  transform: translateX(-50%);
+  padding: 0.2rem 0.85rem;
+  border: 0;
+  background: transparent;
+  font-family: "Space Mono", monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.25s ease;
+}
+
+.cv-dl__cancel:hover,
+.cv-dl__cancel:focus-visible {
+  color: var(--accent-text);
+}
+
+/* Keeps the compact label but grows the pressable area to a comfortable size. */
+.cv-dl__cancel::before {
+  content: "";
+  position: absolute;
+  inset: -5px -8px;
+}
+
+/* ---------- hidden helpers ---------- */
+
+.cv-dl__status,
+.cv-dl__trigger {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 640px) {
+  .cv-dl__ring {
+    width: 38px;
+    height: 38px;
+    margin-left: -19px;
+  }
+
+  /* Stacked actions: shrink the parachute so its peak stays clear of the
+     button above, and thicken the cords to survive the downscale. */
+  .cv-dl__chute {
+    width: 22px;
+    height: 34px;
+    margin-left: -11px;
+    bottom: 2px;
+  }
+
+  .cv-dl__chute .cv-dl__lines {
+    stroke-width: 2;
+  }
+
+  /* Three cords stay legible once the parachute is downscaled for the
+     stacked action row; five of them merge into the canopy. */
+  .cv-dl__lines--inner {
+    display: none;
+  }
+
+  .cv-dl__word {
+    bottom: 30px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cv-dl[data-phase="morph"] .cv-dl__ring,
+  .cv-dl[data-phase="run"] .cv-dl__chute,
+  .cv-dl[data-phase="done"] .cv-dl__check,
+  .cv-dl[data-phase="done"] .cv-dl__check svg,
+  .cv-dl[data-phase="done"] .cv-dl__track {
+    animation: none;
+  }
+
+  .cv-dl[data-phase="done"] .cv-dl__check {
+    opacity: 1;
+  }
+
+  .cv-dl[data-phase="done"] .cv-dl__check svg {
+    stroke-dashoffset: 0;
+  }
+}

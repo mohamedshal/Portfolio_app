@@ -12,19 +12,12 @@ export default function Navbar({
   const { isDark, toggleTheme } = useTheme();
 
   return (
-    <nav
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
-      style={{
-        background: scrolled ? `rgba(${isDark ? '8,8,8' : '255,255,255'},0.88)` : "transparent",
-        backdropFilter: scrolled ? "blur(24px)" : "none",
-        borderBottom: scrolled ? `1px solid var(--border-color)` : "none",
-      }}
-    >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <nav className={`site-nav ${scrolled ? "is-scrolled" : ""}`}>
+      <div className="nav-inner">
         <button className="brand" onClick={() => onNavClick("Home")}>
           {"<MO />"}
         </button>
-        <div className="hidden items-center gap-10 md:flex">
+        <div className="nav-links">
           {NAV_LINKS.map((label) => (
             <button
               key={label}
@@ -35,7 +28,7 @@ export default function Navbar({
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-4">
+        <div className="nav-actions">
           <button className="theme-toggle" onClick={toggleTheme} title={isDark ? "Switch to light mode" : "Switch to dark mode"}>
             {isDark ? (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -55,7 +48,7 @@ export default function Navbar({
               </svg>
             )}
           </button>
-          <button className="mobile-menu md:hidden" onClick={onToggleMenu}>
+          <button className="mobile-menu" onClick={onToggleMenu} aria-label="Toggle menu">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               {menuOpen ? (
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -66,19 +59,25 @@ export default function Navbar({
           </button>
         </div>
       </div>
-      {menuOpen && (
-        <div className="mobile-dropdown md:hidden">
-          {NAV_LINKS.map((label) => (
-            <button
-              key={label}
-              onClick={() => onNavClick(label)}
-              className={`mobile-nav-link ${activeNav === label ? "active" : ""}`}
-            >
-              {label}
-            </button>
-          ))}
+      <div
+        className={`mobile-dropdown${menuOpen ? " is-open" : ""}`}
+        aria-hidden={!menuOpen}
+      >
+        <div className="mobile-dropdown-clip">
+          <div className="mobile-dropdown-card">
+            {NAV_LINKS.map((label) => (
+              <button
+                key={label}
+                onClick={() => onNavClick(label)}
+                className={`mobile-nav-link ${activeNav === label ? "active" : ""}`}
+                tabIndex={menuOpen ? 0 : -1}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 }

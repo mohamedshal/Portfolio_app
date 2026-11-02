@@ -1,14 +1,16 @@
-import ProjectSlider from "./ProjectSlider";
+import ProjectCarousel from "./ProjectCarousel";
 import "./ProjectsSection.css";
 
 export default function ProjectsSection() {
   return (
-    <section id="projects" className="projects-section">
-      <div className="mx-auto max-w-6xl px-6 py-24">
-        <h2 className="section-title text-center">Featured Projects</h2>
-        <p className="text-gray-600 text-xs tracking-widest uppercase text-center mt-2">Drag or click arrows to explore</p>
-        <div className="mt-10">
-          <ProjectSlider />
+    <section id="projects" className="section section--band projects-section">
+      <div className="container">
+        <div className="section-head section-head--center reveal">
+          <h2 className="section-title">Featured Projects</h2>
+          <p className="section-sub projects-hint">Drag or click arrows to explore</p>
+        </div>
+        <div className="reveal reveal-d1">
+          <ProjectCarousel />
         </div>
       </div>
     </section>

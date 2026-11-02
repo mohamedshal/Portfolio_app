@@ -1,44 +1,51 @@
-.skill-row {
-  border-radius: 0.8rem;
-  padding: 0.7rem;
-  transition: background-color 0.3s ease;
+.skill-chip {
+  display: inline-flex;
+  max-width: 100%;
+  min-height: 2.4rem;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid color-mix(in srgb, var(--accent-primary) 16%, transparent);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--accent-primary) 5%, var(--surface));
+  transition: border-color 0.25s ease, background-color 0.25s ease,
+    transform 0.25s ease;
 }
 
-.skill-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
+.skill-chip:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--accent-primary) 40%, transparent);
+  background: color-mix(in srgb, var(--accent-primary) 9%, var(--surface));
+}
+
+.skill-icon {
+  display: grid;
+  flex: 0 0 1.1rem;
+  place-items: center;
+  color: var(--accent-text);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.skill-icon svg {
+  width: 1rem;
+  height: 1rem;
+  stroke-width: 1.9;
 }
 
 .skill-name {
-  color: var(--text-secondary);
-  font-family: "Space Mono", monospace;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  min-width: 0;
+  color: var(--text-primary);
+  font-size: 0.82rem;
+  line-height: 1.35;
   transition: color 0.3s ease;
 }
 
 .skill-level {
-  color: var(--accent-primary);
+  flex: 0 0 auto;
+  color: var(--text-secondary);
   font-family: "Space Mono", monospace;
-  font-size: 0.75rem;
+  font-size: 0.62rem;
+  line-height: 1;
   transition: color 0.3s ease;
-}
-
-.skill-track {
-  height: 6px;
-  border-radius: 9999px;
-  background: var(--border-color);
-  overflow: hidden;
-  transition: background-color 0.3s ease;
-}
-
-.skill-fill {
-  height: 100%;
-  border-radius: 9999px;
-  background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary), var(--accent-tertiary));
-  transition: width 1.2s ease-out, background 0.3s ease;
 }

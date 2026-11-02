@@ -1,19 +1,29 @@
 import ecommerceImage from "../images/ecommerce3332.png";
-import cryptoImage from "../images/crypto.png";
-import weatherImage from "../images/weather.png";
 import prayerImage from "../images/prayertimings.png";
-import crudsImage from "../images/crudsPhoto.png";
 import FormBuilderImage from "../images/form-builder.png";
 import AI_ShoppingImage from "../images/AI_Shopping.png";
+import casaGrillImage from "../theme/images/casa-grill.png";
+import nahlaPortfolioImage from "../theme/images/portfolio11.png";
+import perfumeStoreImage from "../theme/images/perfume-store.png";
+import {
+	LuBoxes,
+	LuShoppingCart,
+	LuListChecks,
+	LuSprayCan,
+	LuClock,
+	LuUtensilsCrossed,
+	LuServer,
+	LuLayoutTemplate,
+} from "../icons";
 
-export const NAV_LINKS = ["Home", "About", "Skills", "Projects", "Contact"];
+export const NAV_LINKS = ["Home", "About", "Experience", "Skills", "Education", "Projects", "Contact"];
 
 export const SKILLS = [
 	{ name: "HTML5", level: 95, icon: "devicon-html5-plain colored", cat: "Frontend" },
 	{ name: "CSS3", level: 95, icon: "devicon-css3-plain colored", cat: "Frontend" },
 	{ name: "JavaScript", level: 95, icon: "devicon-javascript-plain colored", cat: "Language" },
 	{ name: "React.js", level: 93, icon: "devicon-react-original colored", cat: "Frontend" },
-	{ name: "Zustand", level: 91, icon: "🧠", cat: "Frontend" },
+	{ name: "Zustand", level: 91, icon: LuBoxes, cat: "Frontend" },
 	{ name: "Redux Toolkit", level: 85, icon: "devicon-redux-original colored", cat: "Frontend" },
 	{ name: "TypeScript", level: 78, icon: "devicon-typescript-plain colored", cat: "Language" },
 	{
@@ -31,6 +41,21 @@ export const SKILLS = [
 	{ name: "MongoDB", level: 80, icon: "devicon-mongodb-plain colored", cat: "Database" },
 ];
 
+export const EDUCATION = [
+	{
+		title: "9-Month Scholarship",
+		subtitle: "Open Source Application Development",
+		institution: "Information Technology Institute (ITI)",
+		details: ["Full-stack development", "Node.js", "Express", "MongoDB", "React.js"],
+	},
+	{
+		title: "Bachelor of Computer Science",
+		subtitle: "GPA: 3.3",
+		institution: "Faculty of Computers and Artificial Intelligence, Benha University",
+		details: ["Computer Science"],
+	},
+];
+
 export const PROJECTS = [
 	{
 		title: "AI_E-commerce",
@@ -38,7 +63,7 @@ export const PROJECTS = [
 		desc: "Responsive AI e-commerce interface with Agent assistant, and smooth UI interactions.",
 		tags: ["React", "CSS", "JavaScript"],
 		accent: "#22c55e",
-		icon: "🛒",
+		icon: LuShoppingCart,
 		num: "01",
 		image: AI_ShoppingImage,
 		projectUrl: "https://ai-e-commerce-app.vercel.app/",
@@ -51,7 +76,7 @@ export const PROJECTS = [
 		desc: "Advanced React form builder with drag-and-drop, validation, conditional logic, and customization",
 		tags: ["React", "API", "TypeScript"],
 		accent: "#eab308",
-		icon: "🪙",
+		icon: LuListChecks,
 		num: "02",
 		image: FormBuilderImage,
 		projectUrl: "https://advanced-form-builder-nf0sfvthr.vercel.app/",
@@ -59,16 +84,16 @@ export const PROJECTS = [
 		kind: "frontend",
 	},
 	{
-		title: "Weather App",
-		subtitle: "Forecast Interface",
-		desc: "Weather lookup project with location-based results and clear, responsive UI sections.",
-		tags: ["React", "Weather API", "Tailwind"],
+		title: "OLFACTIF – Perfume Store",
+		subtitle: "E-commerce Website",
+		desc: "Premium perfume e-commerce website focused on elegant product presentation and fragrance discovery.",
+		tags: ["React.js", "Tailwind CSS"],
 		accent: "#f97316",
-		icon: "⛅",
+		icon: LuSprayCan,
 		num: "03",
-		image: weatherImage,
-		projectUrl: "https://weathertemp123.netlify.app/",
-		detailsUrl: "https://weathertemp123.netlify.app/",
+		image: perfumeStoreImage,
+		projectUrl: "https://olfactif-perfume-store.vercel.app/",
+		detailsUrl: "https://olfactif-perfume-store.vercel.app/",
 		kind: "frontend",
 	},
 	{
@@ -77,7 +102,7 @@ export const PROJECTS = [
 		desc: "Prayer times web app focused on daily schedule access with fast and minimal interface.",
 		tags: ["React", "Date/Time", "Utility"],
 		accent: "#a78bfa",
-		icon: "🕌",
+		icon: LuClock,
 		num: "04",
 		image: prayerImage,
 		projectUrl: "https://theprayerstimings.netlify.app/",
@@ -85,16 +110,16 @@ export const PROJECTS = [
 		kind: "frontend",
 	},
 	{
-		title: "CRUDS",
-		subtitle: "Product Manager",
-		desc: "Classic CRUD application for creating, updating, searching, and deleting product entries.",
-		tags: ["HTML", "CSS", "JavaScript", "CRUD"],
-		accent: "#38bdf8",
-		icon: "🧾",
+		title: "La Casa Grill",
+		subtitle: "Restaurant Website",
+		desc: "A modern, responsive restaurant website showcasing the brand identity, menu, signature dishes, and dining experience.",
+		tags: ["React.js", "Tailwind CSS"],
+		accent: "#d49a5b",
+		icon: LuUtensilsCrossed,
 		num: "05",
-		image: crudsImage,
-		projectUrl: "https://mohamedshal.github.io/CRUDS/",
-		detailsUrl: "https://mohamedshal.github.io/CRUDS/",
+		image: casaGrillImage,
+		projectUrl: "https://grill-restaurant-five.vercel.app/",
+		detailsUrl: "https://grill-restaurant-five.vercel.app/",
 		kind: "frontend",
 	},
 	{
@@ -103,20 +128,38 @@ export const PROJECTS = [
 		desc: "Backend-only e-commerce service built with Node.js and Express.js including routes, models, and controllers.",
 		tags: ["Node.js", "Express.js", "REST API", "Backend"],
 		accent: "#14b8a6",
-		icon: "🛠️",
+		icon: LuServer,
 		num: "06",
 		image: null,
 		projectUrl: "https://github.com/mohamedshal/E-commerce_Nodejs",
 		detailsUrl: "https://github.com/mohamedshal/E-commerce_Nodejs",
 		kind: "backend",
 	},
+	{
+		title: "Nahla Makram",
+		subtitle: "Portfolio Website",
+		desc: "A modern, responsive personal portfolio showcasing professional accounting, auditing, and academic services, with multilingual support and a clean user experience.",
+		tags: ["React.js", "Tailwind CSS", "i18n"],
+		accent: "#71805d",
+		icon: LuLayoutTemplate,
+		num: "07",
+		image: nahlaPortfolioImage,
+		projectUrl: "https://nahla-makram-portfolio.vercel.app/",
+		detailsUrl: "https://nahla-makram-portfolio.vercel.app/",
+		kind: "frontend",
+	},
 ];
 
 export const TIMELINE = [
 	{
+		year: "2026",
+		title: "ITI Open Source Application Development Scholarship",
+		desc: "Earned a place in ITI's 9-month Open Source Application Development scholarship and collaborated with my team to create an AI content campaign.",
+	},
+	{
 		year: "2025",
 		title: "Backend & Full-Stack Path",
-		desc: "Joined ITI 9-month scholarship, learning Node.js and Express.js to build backend systems and full-stack applications.",
+		desc: "Focused on Node.js and Express.js, building backend systems and full-stack applications.",
 	},
 	{
 		year: "2024",

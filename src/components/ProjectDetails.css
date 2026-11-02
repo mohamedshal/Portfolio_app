@@ -1,0 +1,425 @@
+/* Project details overlay.
+   Orbits the project screenshots on a wheel (src/theme/slide-details) and
+   reveals the copy line by line once the wheel settles. */
+
+@property --pd-spin {
+  syntax: "<number>";
+  initial-value: 1;
+  inherits: true;
+}
+
+.pd {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: var(--scrim);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: pdFade 0.35s ease;
+  overflow: hidden;
+}
+
+@keyframes pdFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.pd-card {
+  --step: calc(360deg / var(--n));
+  --rot-dur: 620ms;
+  --rot-ease: linear(
+    0,
+    0.417 25.5%,
+    0.867 49.4%,
+    1 57.7%,
+    0.925 65.1%,
+    0.908 68.6%,
+    0.902 72.2%,
+    0.916 78.2%,
+    0.988 92.1%,
+    1
+  );
+  --tile-w: clamp(150px, 42vw, 232px);
+  --tile-h: calc(var(--tile-w) / 2.05);
+  --radius-orbit: clamp(150px, 44vw, 250px);
+  --reveal-dur: 320ms;
+  --reveal-base: 220ms;
+  --reveal-step: 110ms;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: clamp(300px, 92vw, 440px);
+  max-height: min(88vh, 720px);
+  border: var(--hairline);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-lift);
+  overflow: hidden;
+  transition: --pd-spin var(--rot-dur) var(--rot-ease);
+  animation: pdPop 0.45s var(--ease) both;
+}
+
+.pd-card:focus {
+  outline: none;
+}
+
+@keyframes pdPop {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.pd-close {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--bg-secondary) 72%, transparent);
+  color: var(--text-secondary);
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+}
+
+.pd-close:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-text);
+  background: var(--accent-tint);
+  transform: rotate(90deg);
+}
+
+.pd-close:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* ---------- Wheel ---------- */
+
+.pd-wheel {
+  position: relative;
+  flex: 0 0 auto;
+  height: calc(var(--tile-h) + 2.6rem);
+  overflow: hidden;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--bg-primary) 45%, transparent),
+    transparent
+  );
+}
+
+/* Only the top arc of the orbit is inside the band, so the ring reads as a
+   horizon under the active screenshot. */
+.pd-wheel::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: calc(50% + var(--radius-orbit));
+  width: calc(var(--radius-orbit) * 2 + var(--tile-w));
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  border: 1px dashed color-mix(in srgb, var(--accent-primary) 22%, transparent);
+  background: radial-gradient(circle, var(--accent-tint) 0%, transparent 64%);
+  pointer-events: none;
+}
+
+.pd-orbit {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + var(--radius-orbit));
+  width: 0;
+  height: 0;
+}
+
+.pd-spoke {
+  /* rotate(0)+translateY(-R) is the top slot, so the selected tile lands there. */
+  --angle: calc(var(--step) * (var(--i) - var(--pd-spin)));
+  position: absolute;
+  left: calc(var(--tile-w) / -2);
+  top: calc(var(--tile-h) / -2);
+  width: var(--tile-w);
+  height: var(--tile-h);
+  transform: rotate(var(--angle)) translateY(calc(-1 * var(--radius-orbit)));
+}
+
+.pd-tile {
+  /* Counter-rotation keeps every screenshot upright as the wheel turns. */
+  transform: rotate(calc(-1 * var(--angle)));
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius);
+  border: var(--hairline);
+  background: var(--bg-primary);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: box-shadow 0.4s ease, border-color 0.3s ease;
+}
+
+.pd-spoke[data-active] .pd-tile {
+  border-color: color-mix(in srgb, var(--accent-primary) 55%, transparent);
+  box-shadow: var(--shadow-lift), 0 0 0 3px var(--accent-tint);
+}
+
+.pd-shot {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+.pd-tile--empty {
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 50% 45%, var(--accent-tint), transparent 62%),
+    var(--bg-tertiary);
+}
+
+.pd-tile-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--text-secondary);
+  font-family: "Space Mono", monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.pd-fallback-icon {
+  display: grid;
+  place-items: center;
+  color: var(--accent-text);
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.pd-fallback-icon svg {
+  width: 1.6rem;
+  height: 1.6rem;
+  stroke-width: 1.6;
+}
+
+/* ---------- Copy ---------- */
+
+.pd-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.4rem 1.75rem 0.5rem;
+  overflow-y: auto;
+  text-align: center;
+  align-items: center;
+}
+
+.pd-body > * {
+  animation: pdReveal var(--reveal-dur) ease-in-out both;
+}
+
+.pd-body > :nth-child(1) {
+  animation-delay: var(--reveal-base);
+}
+
+.pd-body > :nth-child(2) {
+  animation-delay: calc(var(--reveal-base) + var(--reveal-step));
+}
+
+.pd-body > :nth-child(3) {
+  animation-delay: calc(var(--reveal-base) + var(--reveal-step) * 2);
+}
+
+.pd-body > :nth-child(4) {
+  animation-delay: calc(var(--reveal-base) + var(--reveal-step) * 3);
+}
+
+.pd-body > :nth-child(5) {
+  animation-delay: calc(var(--reveal-base) + var(--reveal-step) * 4);
+}
+
+@keyframes pdReveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.pd-subtitle {
+  color: var(--accent-text);
+  font-family: "Space Mono", monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.pd-title {
+  color: var(--text-primary);
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.35rem, 4.6vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-block: 0.15rem;
+}
+
+.pd-desc {
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.7;
+  max-width: 34ch;
+}
+
+.pd-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
+
+.pd-tag {
+  border: 1px solid color-mix(in srgb, var(--accent-primary) 35%, transparent);
+  color: var(--accent-text);
+  background: var(--accent-tint);
+  font-size: 0.68rem;
+  padding: 0.25rem 0.65rem;
+}
+
+.pd-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+}
+
+.pd-action {
+  padding: 0.62rem 1.3rem;
+  font-size: 0.8rem;
+}
+
+/* ---------- Foot ---------- */
+
+.pd-foot {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.4rem;
+  padding: 1.1rem 1.75rem 1.2rem;
+}
+
+.pd-nav {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.1rem;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.3s var(--ease);
+}
+
+.pd-nav:hover {
+  transform: scale(1.1);
+  border-color: var(--accent-primary);
+  color: var(--accent-text);
+  background: var(--accent-tint);
+}
+
+.pd-nav:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+.pd-nav:active {
+  transform: scale(1.02);
+}
+
+.pd-counter {
+  color: var(--text-secondary);
+  font-family: "Space Mono", monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 480px) {
+  .pd {
+    padding: 0.5rem;
+  }
+
+  .pd-card {
+    --tile-w: clamp(140px, 52vw, 190px);
+    --radius-orbit: clamp(140px, 46vw, 180px);
+    width: 100%;
+    max-height: 92vh;
+    border-radius: var(--radius);
+  }
+
+  .pd-body {
+    padding-inline: 1.15rem;
+  }
+
+  .pd-desc {
+    max-width: none;
+    font-size: 0.84rem;
+  }
+
+  .pd-foot {
+    padding: 0.9rem 1.15rem 1rem;
+    gap: 1rem;
+  }
+
+  .pd-action {
+    flex: 1 1 auto;
+    padding: 0.6rem 1rem;
+    font-size: 0.78rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pd-card {
+    transition: none;
+    animation: none;
+  }
+
+  .pd-body > * {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}

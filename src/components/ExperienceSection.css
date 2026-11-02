@@ -1,0 +1,114 @@
+.experience-list {
+  position: relative;
+  display: grid;
+  gap: 1rem;
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+.experience-list::before {
+  content: "";
+  position: absolute;
+  top: 1rem;
+  bottom: 1rem;
+  left: 6.45rem;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--accent-primary) 55%, transparent),
+    var(--border-color)
+  );
+}
+
+.experience-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.experience-year {
+  padding-top: 1.4rem;
+  color: var(--accent-text);
+  font-family: "Space Mono", monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-align: right;
+}
+
+.experience-item::before {
+  content: "";
+  position: absolute;
+  top: 1.75rem;
+  left: 6.1rem;
+  width: 0.65rem;
+  height: 0.65rem;
+  border: 1px solid var(--accent-primary);
+  border-radius: 50%;
+  background: var(--bg-primary);
+  box-shadow: 0 0 0 4px var(--bg-primary);
+}
+
+.experience-card {
+  border: var(--hairline);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease,
+    transform 0.35s var(--ease), background-color 0.3s ease;
+}
+
+.experience-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--accent-primary) 35%, transparent);
+  box-shadow: var(--shadow-card);
+}
+
+.experience-title {
+  color: var(--text-primary);
+  font-family: "Playfair Display", serif;
+  font-size: 1.12rem;
+  font-weight: 700;
+  line-height: 1.4;
+  transition: color 0.3s ease;
+}
+
+.experience-description {
+  margin-top: 0.45rem;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.75;
+  transition: color 0.3s ease;
+}
+
+@media (max-width: 560px) {
+  .experience-list {
+    gap: 0.8rem;
+  }
+
+  .experience-list::before {
+    left: 3.65rem;
+  }
+
+  .experience-item {
+    grid-template-columns: 2.9rem minmax(0, 1fr);
+    gap: 1.6rem;
+  }
+
+  .experience-item::before {
+    left: 3.3rem;
+  }
+
+  .experience-year {
+    padding-top: 1.3rem;
+    font-size: 0.68rem;
+    letter-spacing: 0;
+  }
+
+  .experience-card {
+    padding: 1rem;
+  }
+}

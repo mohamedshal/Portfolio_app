@@ -1,5 +1,6 @@
 import { useState } from "react";
 import emailjs from "emailjs-com";
+import { FaGithub, FaLinkedin, FaWhatsapp, FaEnvelope, FaCheck } from "../icons";
 import "./ContactSection.css";
 
 export default function ContactSection() {
@@ -50,90 +51,102 @@ export default function ContactSection() {
       );
   };
 
+  const socials = [
+    {
+      l: "GitHub",
+      Icon: FaGithub,
+      a: "https://github.com/mohamedshal",
+    },
+    {
+      l: "LinkedIn",
+      Icon: FaLinkedin,
+      a: "https://www.linkedin.com/in/mohamed-shalaby-306a40223/",
+    },
+    {
+      l: "WhatsApp",
+      Icon: FaWhatsapp,
+      a: "https://wa.me/201016409206",
+    },
+    {
+      l: "Email",
+      Icon: FaEnvelope,
+      a: "mailto:mohamedshelby682@gmail.com",
+    },
+  ];
+
   return (
-    <section id="contact" className="contact-section">
-      <div className="mx-auto max-w-xl px-6 py-24">
-        <h2 className="section-title text-center">Get In Touch</h2>
+    <section id="contact" className="section contact-section">
+      <div className="container contact-inner">
+        <div className="section-head section-head--center reveal">
+          <h2 className="section-title">Get In Touch</h2>
+        </div>
 
-        <form className="contact-card mt-10 space-y-4" onSubmit={onSubmit}>
-          <input
-            className="input"
-            placeholder="Name"
-            value={form.name}
-            onChange={(e) => onChange("name", e.target.value)}
-          />
+        <form className="contact-card reveal reveal-d1" onSubmit={onSubmit}>
+          <div className="field">
+            <label className="field-label" htmlFor="contact-name">Name</label>
+            <input
+              id="contact-name"
+              className="input"
+              placeholder="Name"
+              value={form.name}
+              onChange={(e) => onChange("name", e.target.value)}
+            />
+          </div>
 
-          <input
-            className="input"
-            placeholder="Email"
-            type="email"
-            value={form.email}
-            onChange={(e) => onChange("email", e.target.value)}
-          />
+          <div className="field">
+            <label className="field-label" htmlFor="contact-email">Email</label>
+            <input
+              id="contact-email"
+              className="input"
+              placeholder="Email"
+              type="email"
+              value={form.email}
+              onChange={(e) => onChange("email", e.target.value)}
+            />
+          </div>
 
-          <textarea
-            className="input"
-            rows={5}
-            placeholder="Message"
-            value={form.message}
-            onChange={(e) => onChange("message", e.target.value)}
-          />
+          <div className="field">
+            <label className="field-label" htmlFor="contact-message">Message</label>
+            <textarea
+              id="contact-message"
+              className="input input--area"
+              rows={5}
+              placeholder="Message"
+              value={form.message}
+              onChange={(e) => onChange("message", e.target.value)}
+            />
+          </div>
 
           <button
             type="submit"
-            className="send-btn"
+            className={`send-btn${loading ? " is-loading" : sent ? " is-sent" : ""}`}
             disabled={loading}
-            style={{
-              background: loading
-                ? "#999"
-                : sent
-                ? "linear-gradient(135deg,#15803d,#22c55e)"
-                : "linear-gradient(135deg,#d97706,#eab308)",
-            }}
           >
-            {loading
-              ? "Sending..."
-              : sent
-              ? "✓  Message Sent!"
-              : "Send Message  →"}
+            {loading ? (
+              "Sending..."
+            ) : sent ? (
+              <span className="send-btn__sent">
+                <FaCheck aria-hidden="true" /> Message Sent!
+              </span>
+            ) : (
+              "Send Message  →"
+            )}
           </button>
         </form>
 
-        <div className="flex justify-center gap-10 mt-12">
-          {[
-            {
-              l: "GitHub",
-              i: "💻",
-              a: "https://github.com/mohamedshal",
-            },
-            {
-              l: "LinkedIn",
-              i: "🔗",
-              a: "https://www.linkedin.com/in/mohamed-shalaby-306a40223/",
-            },
-            {
-              l: "Whatsapp",
-              i: "💬",
-              a: "https://wa.me/201016409206",
-            },
-            {
-              l: "Email",
-              i: "📧",
-              a: "mailto:mohamedshelby682@gmail.com",
-            },
-          ].map((s) => (
+        <div className="social-row reveal reveal-d2">
+          {socials.map(({ l, Icon, a }) => (
             <a
-              key={s.l}
-              href={s.a}
+              key={l}
+              href={a}
               target="_blank"
               rel="noopener noreferrer"
-              className="social-btn flex flex-col items-center gap-2"
-              style={{ color: "#4b5563" }}
+              className="social-btn social-tile"
             >
-              <span style={{ fontSize: 22 }}>{s.i}</span>
-              <span className="text-[9px] font-bold tracking-[3px] uppercase">
-                {s.l}
+              <span className="social-icon" aria-hidden="true">
+                <Icon />
               </span>
+              <span className="social-label">{l}</span>
             </a>
           ))}
         </div>
